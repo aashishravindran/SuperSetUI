@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
-import { Send } from "lucide-react";
+import { Send, Bot } from "lucide-react";
 
 type Message = {
   content: string;
@@ -205,8 +205,13 @@ export default function Onboarding() {
   return (
     <div className="flex flex-col h-screen bg-gradient-to-br from-background via-background to-primary/5">
       <header className="flex items-center gap-3 px-4 py-3 border-b bg-card/50 backdrop-blur-sm">
-        <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: "spring" }} className="text-2xl">
-          🤖
+        <motion.div
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ type: "spring" }}
+          className="w-8 h-8 rounded-lg bg-primary/15 flex items-center justify-center shrink-0"
+        >
+          <Bot className="h-5 w-5 text-primary" strokeWidth={1.5} />
         </motion.div>
         <div>
           <h1 className="font-display font-bold text-base">Max</h1>
@@ -232,7 +237,9 @@ export default function Onboarding() {
               >
                 {!msg.isUser && (
                   <div className="flex items-center gap-2 mb-2">
-                    <span className="text-lg">🤖</span>
+                    <div className="w-5 h-5 rounded bg-primary/15 flex items-center justify-center">
+                      <Bot className="h-3 w-3 text-primary" strokeWidth={1.5} />
+                    </div>
                     <span className="font-display font-semibold text-xs text-primary">Max</span>
                   </div>
                 )}

@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Home, Moon, Sparkles } from "lucide-react";
+import { Home, Moon, Sparkles, Bot } from "lucide-react";
 
 const recoveryMessages = [
   "Rest is where strength is built. Your muscles are growing stronger right now.",
@@ -19,92 +19,56 @@ const recoveryTips = [
   { icon: "🥗", title: "Nourish", desc: "Protein and nutrients fuel repair" },
 ];
 
-function RecoveryRobot() {
+function RecoveryOrb() {
   return (
-    <motion.svg
+    <motion.div
       initial={{ scale: 0.8, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
       transition={{ type: "spring", duration: 1 }}
-      width="180"
-      height="180"
-      viewBox="0 0 200 200"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className="drop-shadow-xl"
+      className="relative flex items-center justify-center"
+      style={{ width: 180, height: 180 }}
     >
-      <rect x="40" y="50" width="120" height="100" rx="20" className="fill-card stroke-secondary" strokeWidth="3" />
-      <motion.path
-        d="M 50 55 Q 100 10 150 55"
-        className="fill-secondary/30 stroke-secondary"
-        strokeWidth="2"
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5 }}
-      />
-      <motion.circle
-        cx="155"
-        cy="35"
-        r="8"
-        className="fill-secondary"
-        initial={{ scale: 0 }}
-        animate={{ scale: 1 }}
-        transition={{ delay: 0.7, type: "spring" }}
-      />
-      <motion.g animate={{ y: [0, 1, 0] }} transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}>
-        <path d="M 60 90 Q 75 85 90 90" className="stroke-secondary" strokeWidth="4" strokeLinecap="round" fill="none" />
-        <path d="M 110 90 Q 125 85 140 90" className="stroke-secondary" strokeWidth="4" strokeLinecap="round" fill="none" />
-      </motion.g>
-      <motion.path
-        d="M 75 120 Q 100 135 125 120"
-        className="stroke-secondary"
-        strokeWidth="3"
-        strokeLinecap="round"
-        fill="none"
-        initial={{ pathLength: 0 }}
-        animate={{ pathLength: 1 }}
-        transition={{ duration: 1, delay: 0.3 }}
-      />
-      <rect x="25" y="75" width="15" height="40" rx="5" className="fill-muted" />
-      <rect x="160" y="75" width="15" height="40" rx="5" className="fill-muted" />
-      <rect x="60" y="150" width="80" height="30" rx="10" className="fill-muted stroke-border" strokeWidth="2" />
-      <motion.g
-        animate={{ scale: [1, 1.1, 1], opacity: [0.7, 1, 0.7] }}
-        transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+      {/* Slow outer pulse rings */}
+      {[1, 2, 3].map((i) => (
+        <motion.div
+          key={i}
+          className="absolute rounded-full border border-purple-400/15"
+          style={{ width: 60 + i * 40, height: 60 + i * 40 }}
+          animate={{ scale: [1, 1.06, 1], opacity: [0.3, 0.1, 0.3] }}
+          transition={{ repeat: Infinity, duration: 3.5, delay: i * 0.6, ease: "easeInOut" }}
+        />
+      ))}
+
+      {/* Core orb — cooler blue-purple for rest/recovery */}
+      <motion.div
+        className="relative z-10 w-24 h-24 rounded-full flex items-center justify-center"
+        style={{
+          background: "radial-gradient(circle at 35% 35%, rgba(167,139,250,0.9), rgba(109,40,217,0.85) 60%, rgba(49,46,129,0.9))",
+          boxShadow: "0 0 40px rgba(139,92,246,0.45), 0 0 70px rgba(139,92,246,0.18), inset 0 1px 0 rgba(255,255,255,0.12)",
+        }}
+        animate={{ boxShadow: [
+          "0 0 40px rgba(139,92,246,0.45), 0 0 70px rgba(139,92,246,0.18)",
+          "0 0 55px rgba(139,92,246,0.6), 0 0 90px rgba(139,92,246,0.25)",
+          "0 0 40px rgba(139,92,246,0.45), 0 0 70px rgba(139,92,246,0.18)",
+        ]}}
+        transition={{ repeat: Infinity, duration: 3.5, ease: "easeInOut" }}
       >
-        <circle cx="100" cy="165" r="10" className="fill-secondary/30" />
-        <circle cx="100" cy="165" r="6" className="fill-secondary" />
-      </motion.g>
-      <motion.text
-        x="160"
-        y="50"
-        className="fill-secondary/60 text-lg font-bold"
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: [0, 1, 0], y: [10, -10, -30] }}
-        transition={{ repeat: Infinity, duration: 2.5, delay: 0 }}
-      >
-        z
-      </motion.text>
-      <motion.text
-        x="170"
-        y="40"
-        className="fill-secondary/40 text-base font-bold"
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: [0, 1, 0], y: [10, -10, -30] }}
-        transition={{ repeat: Infinity, duration: 2.5, delay: 0.5 }}
-      >
-        z
-      </motion.text>
-      <motion.text
-        x="178"
-        y="32"
-        className="fill-secondary/20 text-sm font-bold"
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: [0, 1, 0], y: [10, -10, -30] }}
-        transition={{ repeat: Infinity, duration: 2.5, delay: 1 }}
-      >
-        z
-      </motion.text>
-    </motion.svg>
+        <Moon className="h-9 w-9 text-white/85" strokeWidth={1.5} />
+      </motion.div>
+
+      {/* Floating z's */}
+      {[0, 0.8, 1.6].map((delay, i) => (
+        <motion.span
+          key={i}
+          className="absolute font-display font-bold text-purple-300/50 select-none"
+          style={{ fontSize: 14 - i * 2, right: 24 + i * 8, top: 20 + i * 8 }}
+          animate={{ opacity: [0, 0.7, 0], y: [0, -18, -36] }}
+          transition={{ repeat: Infinity, duration: 2.5, delay, ease: "easeOut" }}
+        >
+          z
+        </motion.span>
+      ))}
+    </motion.div>
   );
 }
 
@@ -128,7 +92,7 @@ export default function Recovery() {
       <main className="container max-w-2xl mx-auto px-4 py-8">
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-8">
           <div className="flex justify-center mb-6">
-            <RecoveryRobot />
+            <RecoveryOrb />
           </div>
           <motion.div
             initial={{ opacity: 0 }}
@@ -169,7 +133,10 @@ export default function Recovery() {
               <p className="text-foreground font-medium text-lg">
                 "The body achieves what the mind believes. Today, believe in rest."
               </p>
-              <p className="text-muted-foreground text-sm mt-2">— Max 🤖</p>
+              <p className="text-muted-foreground text-sm mt-2 flex items-center justify-center gap-1.5">
+                — Max
+                <Bot className="h-3.5 w-3.5 text-primary" strokeWidth={1.5} />
+              </p>
             </CardContent>
           </Card>
         </motion.div>

@@ -7,7 +7,7 @@ import { Progress } from "@/components/ui/progress";
 import { motion } from "framer-motion";
 import { useUser } from "@/hooks/useUser";
 import { apiFetch, API_BASE_URL } from "@/lib/api";
-import { History, User, LogOut, Home, Dumbbell, Battery, Plus, Minus, RotateCcw, Users, Calendar, X } from "lucide-react";
+import { History, User, LogOut, Home, Dumbbell, Battery, Plus, Minus, RotateCcw, Users, Calendar, X, Bot } from "lucide-react";
 import { toast } from "sonner";
 
 type Status = {
@@ -29,56 +29,56 @@ const PERSONA_DISPLAY: Record<string, { name: string; specialty: string; color: 
   kickboxing: { name: "Kickboxing", specialty: "Power", color: "bg-kickboxing" },
 };
 
-function MaxRobot() {
+function AIOrb() {
   return (
-    <motion.svg
+    <motion.div
       initial={{ scale: 0.8, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
       transition={{ type: "spring", duration: 0.8 }}
-      width="160"
-      height="160"
-      viewBox="0 0 200 200"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      className="drop-shadow-2xl"
+      className="relative flex items-center justify-center"
+      style={{ width: 180, height: 180 }}
     >
-      <rect x="40" y="50" width="120" height="100" rx="20" className="fill-card stroke-primary" strokeWidth="3" />
-      <motion.g
-        animate={{ rotate: [0, 10, -10, 0] }}
-        transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-        style={{ transformOrigin: "100px 50px" }}
+      {/* Outer pulse rings */}
+      {[1, 2, 3].map((i) => (
+        <motion.div
+          key={i}
+          className="absolute rounded-full border border-purple-500/20"
+          style={{ width: 60 + i * 40, height: 60 + i * 40 }}
+          animate={{ scale: [1, 1.08, 1], opacity: [0.4, 0.15, 0.4] }}
+          transition={{ repeat: Infinity, duration: 2.5, delay: i * 0.4, ease: "easeInOut" }}
+        />
+      ))}
+
+      {/* Core orb */}
+      <motion.div
+        className="relative z-10 w-24 h-24 rounded-full flex items-center justify-center"
+        style={{
+          background: "radial-gradient(circle at 35% 35%, rgba(192,132,252,0.9), rgba(126,34,206,0.85) 60%, rgba(76,29,149,0.9))",
+          boxShadow: "0 0 40px rgba(168,85,247,0.5), 0 0 80px rgba(168,85,247,0.2), inset 0 1px 0 rgba(255,255,255,0.15)",
+        }}
+        animate={{ boxShadow: [
+          "0 0 40px rgba(168,85,247,0.5), 0 0 80px rgba(168,85,247,0.2)",
+          "0 0 60px rgba(168,85,247,0.7), 0 0 100px rgba(168,85,247,0.3)",
+          "0 0 40px rgba(168,85,247,0.5), 0 0 80px rgba(168,85,247,0.2)",
+        ]}}
+        transition={{ repeat: Infinity, duration: 2.5, ease: "easeInOut" }}
       >
-        <line x1="100" y1="50" x2="100" y2="25" className="stroke-primary" strokeWidth="4" strokeLinecap="round" />
-        <circle cx="100" cy="18" r="8" className="fill-primary" />
-      </motion.g>
-      <motion.g animate={{ scaleY: [1, 0.1, 1] }} transition={{ repeat: Infinity, duration: 3, delay: 1 }}>
-        <circle cx="75" cy="90" r="15" className="fill-primary" />
-        <circle cx="125" cy="90" r="15" className="fill-primary" />
-        <circle cx="78" cy="86" r="5" className="fill-primary-foreground" />
-        <circle cx="128" cy="86" r="5" className="fill-primary-foreground" />
-      </motion.g>
-      <motion.path
-        d="M 70 120 Q 100 145 130 120"
-        className="stroke-primary"
-        strokeWidth="4"
-        strokeLinecap="round"
-        fill="none"
-        initial={{ pathLength: 0 }}
-        animate={{ pathLength: 1 }}
-        transition={{ duration: 1, delay: 0.5 }}
-      />
-      <rect x="25" y="75" width="15" height="40" rx="5" className="fill-secondary" />
-      <rect x="160" y="75" width="15" height="40" rx="5" className="fill-secondary" />
-      <rect x="60" y="150" width="80" height="30" rx="10" className="fill-muted stroke-border" strokeWidth="2" />
-      <motion.circle
-        cx="100"
-        cy="165"
-        r="8"
-        className="fill-primary"
-        animate={{ opacity: [0.5, 1, 0.5] }}
-        transition={{ repeat: Infinity, duration: 1.5 }}
-      />
-    </motion.svg>
+        <Bot className="h-10 w-10 text-white/90" strokeWidth={1.5} />
+      </motion.div>
+
+      {/* Orbiting dot */}
+      <motion.div
+        className="absolute"
+        style={{ width: 120, height: 120, transformOrigin: "center" }}
+        animate={{ rotate: 360 }}
+        transition={{ repeat: Infinity, duration: 4, ease: "linear" }}
+      >
+        <div
+          className="absolute w-2.5 h-2.5 rounded-full bg-purple-300 top-0 left-1/2 -translate-x-1/2"
+          style={{ boxShadow: "0 0 8px rgba(216,180,254,0.9)" }}
+        />
+      </motion.div>
+    </motion.div>
   );
 }
 
@@ -199,7 +199,9 @@ export default function Dashboard() {
           <Button variant="ghost" size="icon" onClick={() => navigate("/dashboard")} aria-label="Home">
             <Home className="h-4 w-4" />
           </Button>
-          <span className="text-2xl">🤖</span>
+          <div className="w-7 h-7 rounded-lg bg-primary/15 flex items-center justify-center">
+            <Bot className="h-4 w-4 text-primary" strokeWidth={1.5} />
+          </div>
           <h1 className="font-display font-bold text-lg">
             Super<span className="text-primary">Set</span>
           </h1>
@@ -358,7 +360,7 @@ export default function Dashboard() {
             <p className="text-muted-foreground text-sm">Choose your path, champion.</p>
           </motion.div>
 
-          <MaxRobot />
+          <AIOrb />
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -371,7 +373,7 @@ export default function Dashboard() {
               className="flex-1 h-14 rounded-2xl text-base font-semibold shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all"
               onClick={() => navigate("/workout", { state: { trustMax: true } })}
             >
-              🤖 Trust Max
+              Trust Max
             </Button>
             <Button
               size="lg"
